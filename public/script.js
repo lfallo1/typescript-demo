@@ -11,6 +11,13 @@
     };
     var lance = new User("Lance", 30, new Date(1986, 9, 12));
     console.log(lance.showInfo());
+    //function return types
+    function testFunction(num) {
+        return "Your number is " + num.toString();
+    }
+    //function assignment
+    var myFunc = testFunction;
+    console.log(myFunc(34));
     //arrays
     var arr = ["dog", 24];
     arr = [false];
@@ -27,6 +34,45 @@
         Color[Color["BLUE"] = 2] = "BLUE";
     })(Color || (Color = {}));
     ;
-    console.log(Color.RED);
+    console.log(Color.BLUE);
+    var myObject = {
+        age: 30,
+        name: "Lance"
+    };
+    console.log(myObject);
+    var complexObj = {
+        data: [1, 2, 3, 4, 5],
+        output: function (all) {
+            return all ? this.data : this.data[Math.floor(Math.random() * this.data.length)];
+        }
+    };
+    var showAll = new Date().getTime() % 2 === 0;
+    console.log(complexObj.output(showAll));
+    //dont think typeof does anything special / unique to TypeScript
+    var myNumber = [1, 38];
+    if (typeof myNumber === "number[]") {
+        console.log("myNumber is a number array");
+    }
+    //never
+    function throwError(msg) {
+        throw new Error("error: " + msg);
+    }
+    //null checks
+    var nonNullNum = 34;
+    // nonNullNum = null; //would throw error if strictNullChecks are turned on
+    var canBeNull;
+    canBeNull = null;
+    var bankAccount = {
+        money: 2000,
+        deposit: function (value) {
+            this.money += value;
+        }
+    };
+    var myself = {
+        name: "Max",
+        bankAccount: bankAccount,
+        hobbies: ["Sports", "Music"]
+    };
+    myself.bankAccount.deposit(1000);
+    console.log(myself);
 })(new Date());
-//# sourceMappingURL=script.js.map
