@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "noImplicitAny": false,
+        "outFile": "public/script.js",
+        "sourceMap": true
+        },
+        "include": [
+            "dev/**/*.ts"
+        ]
+}
