@@ -1,78 +1,166 @@
+(function () {
+    console.log("hello from es6.ts");
+    //----------- VAR, LET, CONST ------------
+    //----------------------------------------
+    //let preserves outer variable
+    var i = "dog";
+    for (var i_1 = 0; i_1 < 10; i_1++) {
+        console.log("in loop: " + i_1);
+    }
+    console.log("outside loop: " + i);
+    //since var does not preserve scope, this would not work
+    /*
+    var j: string = "cat";
+    for(var j: number = 0; j < 10; j++){
+      //doesnt matter, already broken
+    }
+    */
+    var MAX_NUM = 100;
+    // MAX_NUM = 99; //cannot reassign const
+    //-----------ARROW FUNCTIONS and DEFAULT PARAMS------
+    //---------------------------------------------------
+    var add = function (num1, num2) {
+        if (num1 === void 0) { num1 = 1; }
+        if (num2 === void 0) { num2 = num1 + 1; }
+        return num1 + num2;
+    };
+    var greet = function (name) { return console.log("hello, " + name); };
+    console.log(add(15)); // out: 31
+    console.log(add(34, 128)); // out: 162
+    //------------SPREAD OPERATOR---------------
+    //------------------------------------------
+    var list = [1, 2, 3, 4, 5, 6, 7, -3, 40, 8];
+    console.log("Max is : " + Math.max.apply(Math, list));
+    function variableArgs(name) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        console.log("in variable args with name " + name);
+        for (var i_2 = 0; i_2 < args.length; i_2++) {
+            console.log(args[i_2]);
+        }
+        console.log("end variable args");
+    }
+    variableArgs("Lance", 1, 2, 6, 1, 2, 0);
+    var User = {
+        name: "Lance",
+        age: 30,
+        dob: new Date(1986, 9, 12)
+    };
+    var showUser = function (User) {
+        var name = User.name, age = User.age; //grab only needed properties
+        // const {name: myName, age: myAge} = User //optional alias
+        console.log("name: " + name);
+        console.log("age: " + age);
+    };
+    showUser(User);
+    //-------------- TEMPLATE LITERALS -----------------
+    //--------------------------------------------------
+    var greeting = "\n  Hello " + User.name + ",\n  Hope things are going well.  You are " + User.age + " years old. HA!!\n  Bye...";
+    console.log(greeting);
+})();
 (function (currentDate) {
     console.log("app start time: " + currentDate.toUTCString());
-    function User(name, age, dob) {
+    /*
+      function User(name: string, age: number, dob: Date){
         this.name = name;
         this.age = age;
         this.dob = dob;
         this.active = true;
-    }
-    User.prototype.showInfo = function () {
+      }
+    
+      User.prototype.showInfo = function(): string{
         return this.name + " is " + this.age + " years old, and was born on " + this.dob.toString();
-    };
-    var lance = new User("Lance", 30, new Date(1986, 9, 12));
-    console.log(lance.showInfo());
-    //function return types
-    function testFunction(num) {
+      };
+    
+      let lance = new User("Lance", 30, new Date(1986,9,12));
+      console.log(lance.showInfo());
+    
+      //function return types
+      function testFunction(num: number): string{
         return "Your number is " + num.toString();
-    }
-    //function assignment
-    var myFunc = testFunction;
-    console.log(myFunc(34));
-    //arrays
-    var arr = ["dog", 24];
-    arr = [false];
-    var arr2 = [1, 2, 3, 4, 5, 6];
-    arr2.push(7);
-    //tuples
-    var address = ['Westmoreland Avenue', 7919, "21234"];
-    console.log(address);
-    //enum
-    var Color;
-    (function (Color) {
-        Color[Color["RED"] = 0] = "RED";
-        Color[Color["GREEN"] = 1] = "GREEN";
-        Color[Color["BLUE"] = 2] = "BLUE";
-    })(Color || (Color = {}));
-    ;
-    console.log(Color.BLUE);
-    var myObject = {
-        age: 30,
-        name: "Lance"
-    };
-    console.log(myObject);
-    var complexObj = {
-        data: [1, 2, 3, 4, 5],
-        output: function (all) {
-            return all ? this.data : this.data[Math.floor(Math.random() * this.data.length)];
+      }
+      //function assignment
+      let myFunc: (num: number) => string = testFunction;
+      console.log(myFunc(34));
+    
+      //arrays
+      let arr: any[] = ["dog", 24];
+      arr = [false];
+    
+      let arr2: number[] = [1,2,3,4,5,6];
+      arr2.push(7);
+    
+      //tuples
+      let address: [string, number, string] = ['Westmoreland Avenue', 7919, "21234"];
+      console.log(address);
+    
+      //enum
+      enum Color {
+        RED,
+        GREEN,
+        BLUE
+      };
+      console.log(Color.BLUE);
+    
+      let myObject: {name: string, age: number} = {
+        age : 30,
+        name : "Lance"
+      };
+      console.log(myObject);
+    
+      //complex objects and type declarations.  also shows union types (i.e., the method returns number[] or number)
+      type ComplexType = {data: number[], output: (all: boolean)=>number[] | number};
+      let complexObj: ComplexType = {
+        data : [1,2,3,4,5],
+        output : function(all: boolean): number[] | number{
+          return all ? this.data : this.data[Math.floor(Math.random() * this.data.length)]
         }
-    };
-    var showAll = new Date().getTime() % 2 === 0;
-    console.log(complexObj.output(showAll));
-    //dont think typeof does anything special / unique to TypeScript
-    var myNumber = [1, 38];
-    if (typeof myNumber === "number[]") {
+      };
+      const showAll = new Date().getTime() % 2 === 0;
+      console.log(complexObj.output(showAll));
+    
+      //dont think typeof does anything special / unique to TypeScript
+      let myNumber: number[] = [1,38];
+      if(typeof myNumber === "number[]"){
         console.log("myNumber is a number array");
-    }
-    //never
-    function throwError(msg) {
+      }
+    
+      //never
+      function throwError(msg: string): never{
         throw new Error("error: " + msg);
-    }
-    //null checks
-    var nonNullNum = 34;
-    // nonNullNum = null; //would throw error if strictNullChecks are turned on
-    var canBeNull;
-    canBeNull = null;
-    var bankAcct = {
+      }
+    
+      //null checks
+      let nonNullNum: number = 34;
+      // nonNullNum = null; //would throw error if strictNullChecks are turned on
+      let canBeNull;
+      canBeNull = null;
+    
+      //if strictNullChecks is on, this will not compile! (type null is not assignable to type number)
+      // let startAsNull = null
+      // startAsNull = 34;
+      // console.log(startAsNull);
+    
+    
+      //exercise
+      type BankAccount = {money: number, deposit: (value: number) => void};
+      let bankAcct: BankAccount = {
         money: 2000,
-        deposit: function (value) {
-            this.money += value;
+        deposit(value: number): void{
+          this.money += value;
         }
-    };
-    var myself = {
+      };
+    
+      let myself: {name: string, bankAccount: BankAccount, hobbies: string[]} = {
         name: "Max",
         bankAccount: bankAcct,
         hobbies: ["Sports", "Music"]
-    };
-    myself.bankAccount.deposit(1000);
-    console.log(myself);
+      };
+      myself.bankAccount.deposit(1000);
+      console.log(myself);
+    
+    
+      */
 })(new Date());
