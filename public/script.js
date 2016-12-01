@@ -62,7 +62,7 @@
     // nonNullNum = null; //would throw error if strictNullChecks are turned on
     var canBeNull;
     canBeNull = null;
-    var bankAccount = {
+    var bankAcct = {
         money: 2000,
         deposit: function (value) {
             this.money += value;
@@ -70,7 +70,7 @@
     };
     var myself = {
         name: "Max",
-        bankAccount: bankAccount,
+        bankAccount: bankAcct,
         hobbies: ["Sports", "Music"]
     };
     myself.bankAccount.deposit(1000);
