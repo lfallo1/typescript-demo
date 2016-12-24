@@ -1,5 +1,5 @@
 (function(){
-
+/*
   console.log("hello from es6.ts");
 
   //----------- VAR, LET, CONST ------------
@@ -12,12 +12,12 @@
   console.log("outside loop: " + i);
 
   //since var does not preserve scope, this would not work
-  /*
+
   var j: string = "cat";
   for(var j: number = 0; j < 10; j++){
     //doesnt matter, already broken
   }
-  */
+  
 
   const MAX_NUM: number = 100;
   // MAX_NUM = 99; //cannot reassign const
@@ -69,5 +69,5 @@
   Hope things are going well.  You are ${User.age} years old. HA!!
   Bye...`;
   console.log(greeting);
-
+*/
 })();
