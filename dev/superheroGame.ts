@@ -1,23 +1,5 @@
 (function(){
-
-//STRING FORMATTING
-
-function formatter(literals, ...substitutions) {
-    return {
-        format: function() {
-            let out: number[] = [];
-            let i: number=0, k: number=0;
-            while(i < literals.length) {
-                out[k++] = literals[i];
-                out[k++] = arguments[substitutions[i]];
-                i++
-            }
-            out[k] = literals[i];
-            return out.join("");
-        }
-    };
-}
-
+/*
 type StringFormatter = (...p)=>void;
 
 //CLASSES & ENUMS
@@ -147,20 +129,19 @@ function showSummary(fighterOne, fighterTwo){
 
 //DATA STORE
 let laser = new SpecialMove(5, 20,
-  (...p) => `${p[0]} raises his left hand.  The almighty superhero fires a laser at ${p[1]}, delivering massive damage`,
+  (...p) => `${p[0]} raises his left hand.  The superhero fires a laser at ${p[1]}, delivering massive damage`,
   (...p) => `As the flash gives way, ${p[1]} is out for the count.  The superhero, ${p[0]}, is once again victorious`);
 let snakeTransformation = new SpecialMove(8, 70,
-  (...p) => `${p[1]} smiles confidently, much to the crowds delight.  Suddenly, ${p[0]} gives a wicked smirk, its eyes turning red as it transforms into a massive serpent.  its tail wraps around ${p[1]} squeezing the life out of the superhero`,
+  (...p) => `Suddenly, ${p[0]} gives a wicked smirk, its eyes turning red as it transforms into a massive serpent.  its tail wraps around ${p[1]} squeezing the life out of the superhero`,
   (...p) => `The crowd watches in terror as ${p[0]}'s jaws open, and the mighty ${p[1]} can only squirm helplessly.  Consumed headfirst, the demonic beast swallows the superhero whole.  Guess that's game over...`);
 
-/* name, alias, description, type: Type, attackPower: number = 5, special: SpecialMove, killDescription: string, attackDescriptions: string[] */
 let CaptainJustice = new Fighter("Unknown",
   "Captain Justice",
   "A made up superhero",
   Type.SUPERHERO, 12, laser,
   (...p)=>`${p[0]} stands hands on hips, over ${p[1]}.  The champion of justice once again victorious`,
   [
-    (...p)=>`${p[0]} smirks confidently, as he delivers an upper cut to his ${p[1]}'s jaw`,
+    (...p)=>`${p[0]} delivers an upper cut to his ${p[1]}'s jaw`,
     (...p)=>`${p[0]} delivers a combo punch, finishing it off with a spinning kick to ${p[1]}'s mid-section.`,
     (...p)=>`${p[0]} walks confidently toward ${p[1]}, before exploding into ${p[1]} with unbelievable force.`
   ]
@@ -179,5 +160,5 @@ let Devil = new Fighter("The Shapeshifter", "ShapeShifter", "A bad guy who can t
 //DRIVER
 
 fight(CaptainJustice, Devil);
-
+*/
 })();
