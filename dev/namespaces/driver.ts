@@ -1,2 +1,2 @@
-///<reference path="myMathArithmetic.ts" />
-console.log(MyMath.Circle.add(4,5));
+// ///<reference path="myMathArithmetic.ts" />
+// console.log(MyMath.Circle.add(4,5));

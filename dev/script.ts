@@ -1,7 +1,7 @@
-(function(currentDate: Date){
+(function(){
 
 
-  console.log("app start time: " + currentDate.toUTCString());
+  // console.log("app start time: " + currentDate.toUTCString());
 /*
   function User(name: string, age: number, dob: Date){
     this.name = name;
@@ -130,4 +130,4 @@
 
   */
 
-})(new Date());
+})();

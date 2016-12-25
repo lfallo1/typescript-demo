@@ -282,6 +282,267 @@
       console.log(greeting);
     */
 })();
+System.register("modules/Models", [], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
+    var Type, SpecialMove, Fighter;
+    return {
+        setters:[],
+        execute: function() {
+            (function (Type) {
+                Type[Type["SUPERHERO"] = 0] = "SUPERHERO";
+                Type[Type["VILLAIN"] = 1] = "VILLAIN";
+            })(Type || (Type = {}));
+            exports_1("Type", Type);
+            ;
+            SpecialMove = (function () {
+                function SpecialMove(chargeNeeded, strength, description, didKillDescription) {
+                    if (chargeNeeded === void 0) { chargeNeeded = 3; }
+                    if (strength === void 0) { strength = 25; }
+                    this.chargeNeeded = chargeNeeded > 0 ? chargeNeeded : 3;
+                    this.strength = strength > 0 && strength < 100 ? strength : 25;
+                    this.description = description;
+                    this.didKillDescription = didKillDescription;
+                    this.currentCharge = 0;
+                }
+                SpecialMove.prototype.isAvailable = function () {
+                    return this.currentCharge >= this.chargeNeeded;
+                };
+                ;
+                SpecialMove.prototype.addCharge = function () {
+                    if (this.currentCharge < this.chargeNeeded) {
+                        this.currentCharge += 1;
+                    }
+                };
+                ;
+                SpecialMove.prototype.trySpecial = function () {
+                    if (this.isAvailable()) {
+                        this.currentCharge = 0;
+                        return [this.strength, this.description, this.didKillDescription];
+                    }
+                    return false;
+                };
+                ;
+                return SpecialMove;
+            }());
+            exports_1("SpecialMove", SpecialMove);
+            Fighter = (function () {
+                function Fighter(name, alias, description, type, attackPower, special, killDescription, attackDescriptions) {
+                    if (attackPower === void 0) { attackPower = 5; }
+                    this.name = name;
+                    this.alias = alias;
+                    this.description = description;
+                    this.type = type;
+                    this.life = 100;
+                    this.attackPower = attackPower > 0 && attackPower < 25 ? attackPower : 5;
+                    this.special = special;
+                    this.attackDescriptions = attackDescriptions;
+                    this.killDescription = killDescription;
+                }
+                ;
+                Fighter.prototype.getAlias = function () { return this.alias; };
+                ;
+                Fighter.prototype.getType = function () { return this.type; };
+                ;
+                Fighter.prototype.getLife = function () { return this.life; };
+                ;
+                Fighter.prototype.decrementLife = function (amount) {
+                    this.life -= amount;
+                };
+                ;
+                Fighter.prototype.attack = function (opponent) {
+                    if (this.life <= 0) {
+                        return;
+                    }
+                    var special = this.special.trySpecial();
+                    if (special) {
+                        opponent.decrementLife(special[0]);
+                        if (opponent.getLife() <= 0) {
+                            console.log(special[1](this.getAlias(), opponent.getAlias()));
+                            console.log(special[2](this.getAlias(), opponent.getAlias()));
+                            return;
+                        }
+                        console.log(special[1](this.getAlias(), opponent.getAlias()));
+                        return;
+                    }
+                    var damage = Math.floor(Math.random() * this.attackPower) + 1;
+                    opponent.decrementLife(damage);
+                    if (opponent.getLife() <= 0) {
+                        console.log(this.killDescription(this.getAlias(), opponent.getAlias()));
+                        return;
+                    }
+                    var attackDescription = this.attackDescriptions[Math.floor(Math.random() * this.attackDescriptions.length)];
+                    console.log(attackDescription(this.getAlias(), opponent.getAlias()) + " - " + damage);
+                    this.special.addCharge();
+                };
+                return Fighter;
+            }());
+            exports_1("Fighter", Fighter);
+            ;
+        }
+    }
+});
+System.register("modules/DataStore", ["modules/Models"], function(exports_2, context_2) {
+    "use strict";
+    var __moduleName = context_2 && context_2.id;
+    var Models_1;
+    var laser, snakeTransformation, CaptainJustice, Devil;
+    return {
+        setters:[
+            function (Models_1_1) {
+                Models_1 = Models_1_1;
+            }],
+        execute: function() {
+            //DATA STORE - stores characters and special moves
+            exports_2("laser", laser = new Models_1.SpecialMove(5, 20, function () {
+                var p = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    p[_i - 0] = arguments[_i];
+                }
+                return (p[0] + " raises his left hand.  The superhero fires a laser at " + p[1] + ", delivering massive damage");
+            }, function () {
+                var p = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    p[_i - 0] = arguments[_i];
+                }
+                return ("As the flash gives way, " + p[1] + " is out for the count.  The superhero, " + p[0] + ", is once again victorious");
+            }));
+            exports_2("snakeTransformation", snakeTransformation = new Models_1.SpecialMove(8, 70, function () {
+                var p = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    p[_i - 0] = arguments[_i];
+                }
+                return ("Suddenly, " + p[0] + " gives a wicked smirk, its eyes turning red as it transforms into a massive serpent.  its tail wraps around " + p[1] + " squeezing the life out of the superhero");
+            }, function () {
+                var p = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    p[_i - 0] = arguments[_i];
+                }
+                return ("The crowd watches in terror as " + p[0] + "'s jaws open, and the mighty " + p[1] + " can only squirm helplessly.  Consumed headfirst, the demonic beast swallows the superhero whole.  Guess that's game over...");
+            }));
+            exports_2("CaptainJustice", CaptainJustice = new Models_1.Fighter("Unknown", "Captain Justice", "A made up superhero", Models_1.Type.SUPERHERO, 12, laser, function () {
+                var p = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    p[_i - 0] = arguments[_i];
+                }
+                return (p[0] + " stands hands on hips, over " + p[1] + ".  The champion of justice once again victorious");
+            }, [
+                function () {
+                    var p = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        p[_i - 0] = arguments[_i];
+                    }
+                    return (p[0] + " delivers an upper cut to his " + p[1] + "'s jaw");
+                },
+                function () {
+                    var p = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        p[_i - 0] = arguments[_i];
+                    }
+                    return (p[0] + " delivers a combo punch, finishing it off with a spinning kick to " + p[1] + "'s mid-section.");
+                },
+                function () {
+                    var p = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        p[_i - 0] = arguments[_i];
+                    }
+                    return (p[0] + " walks confidently toward " + p[1] + ", before exploding into " + p[1] + " with unbelievable force.");
+                }
+            ]));
+            exports_2("Devil", Devil = new Models_1.Fighter("The Shapeshifter", "ShapeShifter", "A bad guy who can turn into stuff.", Models_1.Type.VILLAIN, 15, snakeTransformation, function () {
+                var p = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    p[_i - 0] = arguments[_i];
+                }
+                return (p[0] + " snarls, as " + p[1] + " lays face first on the ground.  Grabbing the crimefighter by the boots, drags the superhero away to be cooked and served for dinner. Poor " + p[1]);
+            }, [
+                function () {
+                    var p = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        p[_i - 0] = arguments[_i];
+                    }
+                    return (p[0] + " grabs " + p[1] + " by the neck and slams the superhero into the ground");
+                },
+                function () {
+                    var p = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        p[_i - 0] = arguments[_i];
+                    }
+                    return (p[0] + " grabs " + p[1] + " by the boots, lifting our spandex-clad warrior off the ground. " + p[0] + " violently slams " + p[1] + " into the ground, like a rag doll");
+                }
+            ]));
+        }
+    }
+});
+System.register("modules/FightService", ["modules/Models"], function(exports_3, context_3) {
+    "use strict";
+    var __moduleName = context_3 && context_3.id;
+    var Models_2;
+    var FightService;
+    return {
+        setters:[
+            function (Models_2_1) {
+                Models_2 = Models_2_1;
+            }],
+        execute: function() {
+            FightService = (function () {
+                function FightService(superhero, villain) {
+                    this.setFighters(superhero, villain);
+                }
+                FightService.prototype.setFighters = function (superhero, villain) {
+                    if (superhero && villain && superhero.getType() === Models_2.Type.SUPERHERO && villain.getType() === Models_2.Type.VILLAIN) {
+                        this.superhero = superhero;
+                        this.villain = villain;
+                    }
+                };
+                ;
+                FightService.prototype.canFight = function () {
+                    return this.superhero && this.villain;
+                };
+                FightService.prototype.fight = function () {
+                    if (!this.canFight()) {
+                        console.log('please add two characters (superhero and villain) to begin a fight');
+                        return;
+                    }
+                    while (this.superhero.getLife() > 0 && this.villain.getLife() > 0) {
+                        this.superhero.attack(this.villain);
+                        this.villain.attack(this.superhero);
+                        this.showSummary();
+                    }
+                };
+                ;
+                FightService.prototype.showSummary = function () {
+                    var summary = "\n    Round summary:\n    " + this.superhero.getAlias() + ": " + this.superhero.getLife() + "\n    " + this.villain.getAlias() + ": " + this.villain.getLife() + "\n\n    ";
+                    console.log(summary);
+                };
+                return FightService;
+            }());
+            exports_3("FightService", FightService);
+        }
+    }
+});
+System.register("modules/main", ["modules/FightService", "modules/DataStore"], function(exports_4, context_4) {
+    "use strict";
+    var __moduleName = context_4 && context_4.id;
+    var FightService_1, DataStore_1;
+    return {
+        setters:[
+            function (FightService_1_1) {
+                FightService_1 = FightService_1_1;
+            },
+            function (DataStore_1_1) {
+                DataStore_1 = DataStore_1_1;
+            }],
+        execute: function() {
+            (function () {
+                var fightService = new FightService_1.FightService(DataStore_1.CaptainJustice, DataStore_1.Devil);
+                fightService.fight();
+            })();
+        }
+    }
+});
+// ///<reference path="myMathArithmetic.ts" />
+// console.log(MyMath.Circle.add(4,5));
 //just a nested namespace example
 var MyMath;
 (function (MyMath) {
@@ -305,10 +566,8 @@ var MyMath;
 //   MyMath.add = add;
 //
 // })(MyMath || (MyMath = {}));
-///<reference path="myMathArithmetic.ts" />
-console.log(MyMath.Circle.add(4, 5));
-(function (currentDate) {
-    console.log("app start time: " + currentDate.toUTCString());
+(function () {
+    // console.log("app start time: " + currentDate.toUTCString());
     /*
       function User(name: string, age: number, dob: Date){
         this.name = name;
@@ -436,7 +695,7 @@ console.log(MyMath.Circle.add(4, 5));
       myself.displayUI();
     
       */
-})(new Date());
+})();
 (function () {
     /*
     type StringFormatter = (...p)=>void;

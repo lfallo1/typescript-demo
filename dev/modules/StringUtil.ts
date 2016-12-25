@@ -1,0 +1,1 @@
+type StringFormatter = (...p)=>void;
