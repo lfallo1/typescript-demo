@@ -1,5 +1,5 @@
 (function(){
-
+/*
   class Person {
 
     protected static info: string = "This is the person class";
@@ -207,5 +207,5 @@
   let conn = myDb.connection;
   conn.query("select * from users");
   myDb.disconnect();
-
+*/
 })();

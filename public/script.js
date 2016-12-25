@@ -1,215 +1,213 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 (function () {
-    var Person = (function () {
-        function Person(name, username) {
-            this.username = username;
-            this.type = "guest";
-            this.age = 21;
-            this.name = name;
+    /*
+      class Person {
+    
+        protected static info: string = "This is the person class";
+        static showInfo(){
+          console.log(Person.info);
         }
-        Person.showInfo = function () {
-            console.log(Person.info);
+    
+        name: string;
+        private type: string = "guest";
+        protected age: number = 21;
+    
+        constructor(name: string, public username: string){
+          this.name = name;
         };
-        ;
-        Person.prototype.getAge = function () {
-            return this.age;
+    
+        getAge(): number{
+          return this.age;
         };
-        ;
-        Person.prototype.setAge = function (age) {
-            this.age = age && age >= 0 ? age : this.age;
+        setAge(age: number): void{
+          this.age = age && age >= 0 ? age : this.age;
         };
-        ;
-        Person.prototype.isLegal = function () {
-            return this.age >= 21;
+    
+        private isLegal(): boolean{
+          return this.age >= 21;
         };
-        ;
-        Person.info = "This is the person class";
-        return Person;
-    }());
-    ;
-    var person = new Person("Lance", "lfallo1");
-    console.log(person.username);
-    console.log(person.name);
-    person.setAge(20);
-    console.log(person.getAge());
-    // person.type;
-    // person.age;
-    //inheritance
-    var Superhero = (function (_super) {
-        __extends(Superhero, _super);
-        function Superhero(name, username, suit, alias, powerLevel) {
-            if (suit === void 0) { suit = "blue suit, with red boots, red cape, and gold S stamped on his chest"; }
-            if (alias === void 0) { alias = "Superman"; }
-            if (powerLevel === void 0) { powerLevel = 5000; }
-            _super.call(this, name, username);
+      };
+    
+      let person = new Person("Lance", "lfallo1");
+      console.log(person.username);
+      console.log(person.name);
+      person.setAge(20);
+      console.log(person.getAge());
+      // person.type;
+      // person.age;
+    
+    
+      //inheritance
+      class Superhero extends Person{
+    
+        private _suit: string;
+        private _alias: string;
+        private _powerLevel: number;
+    
+        constructor(name: string, username: string, suit: string = "blue suit, with red boots, red cape, and gold S stamped on his chest", alias: string="Superman", powerLevel: number = 5000){
+          super(name, username);
+          this._suit = suit;
+          this._alias = alias;
+          this._powerLevel = powerLevel;
+        };
+    
+        get suit(){console.log('in suit getter');return this._suit;}
+        get alias(){console.log('in alias getter');return this._alias;}
+        get powerLevel(){console.log('in powerLevel getter');return this._powerLevel;}
+    
+        set suit(suit: string){
+          if(suit.length < 20){
             this._suit = suit;
+          }
+        };
+    
+        set alias(alias: string){
+          if(alias.length < 20){
             this._alias = alias;
+          }
+        }
+    
+        set powerLevel(powerLevel: number){
+          if(powerLevel < 2000 && powerLevel > 0){
             this._powerLevel = powerLevel;
+          }
         }
-        ;
-        Object.defineProperty(Superhero.prototype, "suit", {
-            get: function () { console.log('in suit getter'); return this._suit; },
-            set: function (suit) {
-                if (suit.length < 20) {
-                    this._suit = suit;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Superhero.prototype, "alias", {
-            get: function () { console.log('in alias getter'); return this._alias; },
-            set: function (alias) {
-                if (alias.length < 20) {
-                    this._alias = alias;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Superhero.prototype, "powerLevel", {
-            get: function () { console.log('in powerLevel getter'); return this._powerLevel; },
-            set: function (powerLevel) {
-                if (powerLevel < 2000 && powerLevel > 0) {
-                    this._powerLevel = powerLevel;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        ;
-        Superhero.prototype.print = function () {
-            console.log(this.name + " (aka, " + this.alias + ") is " + this.powerLevelText() + " with a power level of " + this._powerLevel + ". This superhero wheres a " + this._suit);
-        };
-        Superhero.prototype.powerLevelText = function () {
-            if (this._powerLevel > 4000) {
-                return "an elite defender of justice.";
-            }
-            return "a novice crimefighter moving up the ranks.";
-        };
-        return Superhero;
-    }(Person));
-    ;
-    var superman = new Superhero("Clark Kent", "superman1");
-    superman.print();
-    superman.print();
-    superman.powerLevel = 2001;
-    superman.print();
-    superman.powerLevel = 1999;
-    superman.print();
-    Superhero.showInfo();
-    var User = (function () {
-        function User(name, email) {
-            this.name = name;
-            this.email = email;
+    
+        print(): void{
+          console.log(`${this.name} (aka, ${this.alias}) is ${this.powerLevelText()} with a power level of ${this._powerLevel}. This superhero wheres a ${this._suit}`);
         }
-        Object.defineProperty(User.prototype, "name", {
-            get: function () { return this._name; },
-            set: function (name) {
-                this._name = name;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(User.prototype, "email", {
-            get: function () { return this._email; },
-            set: function (email) {
-                this._email = email;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return User;
-    }());
+    
+        private powerLevelText(): string{
+          if(this._powerLevel > 4000){
+            return "an elite defender of justice.";
+          }
+          return "a novice crimefighter moving up the ranks."
+        }
+      };
+    
+      let superman = new Superhero("Clark Kent", "superman1");
+      superman.print();
+      superman.print();
+      superman.powerLevel = 2001;
+      superman.print();
+      superman.powerLevel = 1999;
+      superman.print();
+    
+      Superhero.showInfo();
+    
+    
+      class User{
+        private _name: string;
+        private _email: string;
+    
+        get name(){return this._name;}
+        get email(){return this._email;}
+        set name(name: string){
+          this._name = name;
+        }
+        set email(email: string){
+          this._email = email;
+        }
+    
+        constructor(name: string, email: string){
+          this.name = name;
+          this.email = email;
+        }
+      }
+    
+    
     //ABSTRACT CLASSES
-    var EmailHolder = (function () {
-        function EmailHolder(to, from, cc) {
-            this.to = to;
-            this.from = from;
-            this.cc = cc;
+      abstract class EmailHolder{
+        protected to: string[];
+        protected from: string;
+        protected cc: string[];
+    
+        constructor(to: string[], from: string, cc: string[]){
+          this.to = to;
+          this.from = from;
+          this.cc = cc;
         }
-        return EmailHolder;
-    }());
-    ;
-    var EmailRegistration = (function (_super) {
-        __extends(EmailRegistration, _super);
-        function EmailRegistration(user) {
-            _super.call(this, [user.name], "support@website.com", []);
-            this.user = user;
+    
+        abstract sendEmail(): void;
+      };
+    
+      class EmailRegistration extends EmailHolder{
+    
+        private user: User;
+    
+        private constructMessage(){
+          return `Dear ${this.user.name},
+            Welcome to the website. Please contact support for more information.
+    
+            Sincerely,
+            -Don't touch the potato
+            `
+        };
+    
+        constructor(user: User){
+          super([user.name], "support@website.com", []);
+          this.user = user;
         }
-        EmailRegistration.prototype.constructMessage = function () {
-            return "Dear " + this.user.name + ",\n        Welcome to the website. Please contact support for more information.\n\n        Sincerely,\n        -Don't touch the potato\n        ";
-        };
-        ;
-        EmailRegistration.prototype.sendEmail = function () {
-            console.log("sending email to " + this.user.email + "...");
-            console.log(this.constructMessage());
-        };
-        return EmailRegistration;
-    }(EmailHolder));
-    ;
-    var user = new User("lance", "fallon.lance@gmail.com");
-    var emailReg = new EmailRegistration(user);
-    emailReg.sendEmail();
-    var SqlDb = (function () {
-        function SqlDb() {
+    
+        sendEmail(): void{
+          console.log(`sending email to ${this.user.email}...`);
+          console.log(this.constructMessage());
         }
-        return SqlDb;
-    }());
-    ;
-    var MySqlDb = (function (_super) {
-        __extends(MySqlDb, _super);
-        function MySqlDb() {
-            _super.apply(this, arguments);
+      };
+    
+      let user = new User("lance", "fallon.lance@gmail.com");
+      let emailReg = new EmailRegistration(user);
+      emailReg.sendEmail();
+    
+    
+      abstract class SqlDb{
+        abstract query(sql: string);
+      };
+    
+      class MySqlDb extends SqlDb{
+        query(sql: string){
+          console.log(`querying mysql db: ${sql}`);
         }
-        MySqlDb.prototype.query = function (sql) {
-            console.log("querying mysql db: " + sql);
+      }
+    
+      //SINGLETONS
+      class DbConnectionWrapper{
+    
+        private static instance: DbConnectionWrapper;
+        private connected: boolean = false;
+        private _connection: SqlDb;
+    
+        static getInstance(connectionString: string){
+          if(!DbConnectionWrapper.instance){
+            DbConnectionWrapper.instance = new DbConnectionWrapper(connectionString)
+          }
+          return DbConnectionWrapper.instance;
         };
-        return MySqlDb;
-    }(SqlDb));
-    //SINGLETONS
-    var DbConnectionWrapper = (function () {
-        function DbConnectionWrapper(connectionString) {
-            this.connectionString = connectionString;
-            this.connected = false;
-            this.connectionString = connectionString;
-            console.log("trying connection to " + connectionString);
-            if (this.connectionString.toLowerCase().indexOf('mysql') > -1) {
-                this._connection = new MySqlDb();
-                this.connected = true;
-                return;
-            }
-            console.log('unable to connect');
+    
+        private constructor(public readonly connectionString: string){
+          this.connectionString = connectionString;
+          console.log(`trying connection to ${connectionString}`);
+          if(this.connectionString.toLowerCase().indexOf('mysql') > -1){
+            this._connection = new MySqlDb();
+            this.connected = true;
+            return;
+          }
+          console.log('unable to connect');
+        };
+    
+        get connection(){return this._connection;}
+    
+        disconnect(): boolean{
+          console.log(`succesfully disconnected from ${this.connectionString}`);
+          return true;
         }
-        DbConnectionWrapper.getInstance = function (connectionString) {
-            if (!DbConnectionWrapper.instance) {
-                DbConnectionWrapper.instance = new DbConnectionWrapper(connectionString);
-            }
-            return DbConnectionWrapper.instance;
-        };
-        ;
-        ;
-        Object.defineProperty(DbConnectionWrapper.prototype, "connection", {
-            get: function () { return this._connection; },
-            enumerable: true,
-            configurable: true
-        });
-        DbConnectionWrapper.prototype.disconnect = function () {
-            console.log("succesfully disconnected from " + this.connectionString);
-            return true;
-        };
-        return DbConnectionWrapper;
-    }());
-    ;
-    var myDb = DbConnectionWrapper.getInstance('mysql://localhost:5432/MyDb;lfallo1;pwd');
-    console.log(myDb.connectionString);
-    var conn = myDb.connection;
-    conn.query("select * from users");
-    myDb.disconnect();
+      };
+    
+      let myDb = DbConnectionWrapper.getInstance('mysql://localhost:5432/MyDb;lfallo1;pwd');
+      console.log(myDb.connectionString);
+      let conn = myDb.connection;
+      conn.query("select * from users");
+      myDb.disconnect();
+    */
 })();
 (function () {
     /*
@@ -284,6 +282,31 @@ var __extends = (this && this.__extends) || function (d, b) {
       console.log(greeting);
     */
 })();
+//just a nested namespace example
+var MyMath;
+(function (MyMath) {
+    var Circle;
+    (function (Circle) {
+        var PI = 3.14;
+        function add(x, y) {
+            return x + y;
+        }
+        Circle.add = add;
+    })(Circle = MyMath.Circle || (MyMath.Circle = {}));
+})(MyMath || (MyMath = {}));
+// var MyMath;
+// (function(MyMath){
+//
+//   var PI = 3.14;
+//
+//   function add(x,y){
+//     return x + y;
+//   }
+//   MyMath.add = add;
+//
+// })(MyMath || (MyMath = {}));
+///<reference path="myMathArithmetic.ts" />
+console.log(MyMath.Circle.add(4, 5));
 (function (currentDate) {
     console.log("app start time: " + currentDate.toUTCString());
     /*
